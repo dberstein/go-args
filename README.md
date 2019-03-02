@@ -1,5 +1,13 @@
 # go-args
-argv processor for Go
+Go's argv consumer.
+
+[Parser](https://godoc.org/github.com/dberstein/go-args#Parser) returns pointer to [Args](https://godoc.org/github.com/dberstein/go-args#Args), [From](https://godoc.org/github.com/dberstein/go-args#Args.From) splits the arguments given into their corresponding [Bucket](https://godoc.org/github.com/dberstein/go-args#Bucket). [FromArgv](https://godoc.org/github.com/dberstein/go-args#Args.From) takes arguments from [os.Argv](https://golang.org/pkg/os/#pkg-variables).
+
+The initial bucket is [DefaultBucket](https://godoc.org/github.com/dberstein/go-args#Bucket) (its just [prefix](https://github.com/dberstein/go-args/blob/master/args.go#L14): "--"). If the default Bucket is found in arguments list, all remaining arguments are assigned to the default bucket. Meaning that arguments found before any bucket **and** any found after `DefaultBucket.prefix`, are assigned to *DefaultBucket*
+
+Since each bucket may produce zero or more values, [Values](https://godoc.org/github.com/dberstein/go-args#Args.Values) returns a `*[]string`, if response is `nil` then bucket name is not known. Note that bucket name is prefix concatenated with name.
+
+Note that a bucket like `args.WithPrefix("super", "@")` must use `@super` as bucket name to get its values.
 
 ## Installation ##
 ```
